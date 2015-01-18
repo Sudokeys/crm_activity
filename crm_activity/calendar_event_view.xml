@@ -1,0 +1,203 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="view_crm_activity_form">
+            <field name="name">calendar.event.form.crm_activity_inherit</field>
+            <field name="model">calendar.event</field>
+            <field name="context">{}</field>
+            <field name="priority" eval="25"/>
+            <field name="inherit_id" ref="calendar.view_calendar_event_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <field name="state" position="replace">
+                        <field name="state" widget="statusbar" attrs="{'invisible': [('is_done','=',True)]}" class="oe_right" readonly="0" clickable="1"/>
+                    </field>
+                    <field name="partner_ids" position="before">
+                        <field name="partner_id" string="Client" required="True"/>
+                    </field>
+                    <field name="partner_ids" position="attributes">
+                        <attribute name="domain">[('parent_id','=',partner_id)]</attribute>
+                    </field>
+                    <field name='start_datetime' position='before'>
+                        <field name="is_done" string="Traité"/>
+                        <field name="date_done" attrs="{'required': [('is_done','=',True)], 'invisible': [('is_done','=',False)]}" string="Date de clôture"/>
+                        <field name="activity_type_id" options="{'no_open': True}" string="Type Activité"/>
+                    </field>
+                    <field name="location" position="after">
+                        <field name="prev_calendar_event_id" attrs="{'invisible': [('prev_calendar_event_id','=',False)]}" string="Activité Précédente" domain="[('id','not in',[active_id])]"/>
+                    </field>
+                    <field name="description" position="after">
+                        <group string="Résultat" name="result" attrs="{'invisible': [('is_done','=',False)]}">
+                            <group>
+                                <field name="end_result" string="Résultat" attrs="{'required': [('is_done','=',True)], 'invisible': [('is_done','=',False)]}" context="{'default_activity_type_id': activity_type_id}" domain="[('activity_type_id','in',[activity_type_id])]"/>
+                            </group>
+                            <group>
+                                <field name="result" string="Détails" attrs="{'required': [('is_done','=',True)]}"/>
+                            </group>
+                        </group>
+                    </field>
+                </data>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_crm_activity_type_form">
+            <field name="name">crm.activity.type.form</field>
+            <field name="model">crm.activity.type</field>
+            <field name="context">{}</field>
+            <field name="priority" eval="25"/>
+            <field name="arch" type="xml">
+        <form string="Type d'activité">
+            <sheet>
+                <group>
+                    <group>
+                        <field name="default" string="Valeur par défaut ?"/>
+                        <field name="name" string="nom"/>
+                    </group>
+                    <group>
+                        <field name="ref" string="code"/>
+                    </group>
+                </group>
+                <label for="end_result_ids" string="Résultat de fin pour ce type d'activité"/>
+                <field name="end_result_ids" context="{'default_activity_type_id': active_id}">
+                    <tree editable="bottom">
+                        <field name="name"/>
+                        <field name="activity_type_id" invisible="1"/>
+                    </tree>
+                </field>
+            </sheet>
+        </form>
+    </field>
+</record>
+
+        <menuitem name="Activity" id="activity_config" parent="base.menu_base_config" sequence="70"/>
+
+        <record id="action_activity_type" model="ir.actions.act_window">
+            <field name="name">Activity Types</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">crm.activity.type</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem action="action_activity_type" id="menu_activity_type" parent="activity_config"/>
+
+        <!-- VUE TREE DES ACTIVITES EN COURS -->
+        <record model="ir.ui.view" id="view_pending_crm_activity">
+            <field name="name">CRM - Activity Tree</field>
+            <field name="model">calendar.event</field>
+            <field name="context">{}</field>
+            <field name="arch" type="xml">
+                <tree string="Calendrier" fonts="bold:message_unread==True">
+                    <field name="activity_type_id" string="Type" invisible="True"/>
+                    <field name="name" string="Objet"/>
+                    <field name="start_datetime"/>
+                    <field name="user_id" string="Vendeurs"/>
+                    <field name="duration"/>
+                    <field name="partner_id"/>
+                    <field name="message_unread" invisible="1"/>
+                    <field name="is_done" string="Traité" invisible="1"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="view_crm_activity_search" model="ir.ui.view">
+            <field name="name">CRM - Activity Search</field>
+            <field name="model">calendar.event</field>
+            <field name="arch" type="xml">
+                <search string="Search Meetings">
+                    <field name="name" string="Meeting" filter_domain="[('name','ilike',self)]"/>
+                    <filter string="Unread Messages" name="message_unread" domain="[('message_unread','=',True)]"/>
+                    <filter string="Aujourd'hui" name="today" domain="[('start_datetime','&lt;', time.strftime('%%Y-%%m-%%d 23:59:59')), ('start_datetime','&gt;=', time.strftime('%%Y-%%m-%%d 00:00:00'))]"/>
+                    <separator/>
+                    <filter string="Mes activités" name="my_activities" domain="[('user_id','=',uid)]"/>
+                    <field name="user_id"/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Vendeur" icon="terp-personal" domain="[]" context="{'group_by' : 'user_id'}"/>
+                        <filter string="Clients" context="{'group_by': 'partner_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+
+        <record id="action_crm_activity_todo" model="ir.actions.act_window">
+            <field name="name">ACTIVITES EN COURS</field>
+            <field name="res_model">calendar.event</field>
+            <field name="view_mode">kanban,tree,form,calendar</field>
+            <field name="search_view_id" ref="view_crm_activity_search"/>
+            <field name="domain">[('is_done','=',0)]</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Cliquez sur le bouton créer pour ajouter une activité (Appel téléphonique, Rendez-vous etc...).
+                </p>
+            </field>
+        </record>
+
+
+        <record model="ir.actions.act_window.view" id="action_view_calendar_event_tree">
+            <field name="act_window_id" ref="action_crm_activity_todo"/>
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_pending_crm_activity"/>
+        </record>
+
+
+
+        <!-- VUE TREE DES HISTORIQUES ACTIVITES -->
+        <record model="ir.ui.view" id="view_crm_activity_history_tree">
+            <field name="name">CRM - Activity Tree</field>
+            <field name="model">calendar.event</field>
+            <field name="arch" type="xml">
+                <tree string="Calendrier" fonts="bold:message_unread==True" >
+                    <field name="activity_type_id" string="Type" invisible="True"/>
+                    <field name="end_result" string="Résultat"/>
+                    <field name="result" string="Détails"/>
+                    <field name="date_done" string="Traité le"/>
+                    <field name="user_id" string="Vendeur"/>
+                    <field name="duration"/>
+                    <field name="is_done" string="Traité"/>
+                    <field name="partner_id"/>
+                    <field name="message_unread" invisible="1"/>
+                    <field name="state" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <!-- base_calendar.view_calendar_event_calendar -->
+        <record id="action_crm_activity_done" model="ir.actions.act_window">
+            <field name="name">HISTORIQUES DES ACTIVITES</field>
+            <field name="res_model">calendar.event</field>
+            <field name="view_mode">calendar,tree,form</field>
+            <field name="view_id" ref="view_crm_activity_history_tree"/>
+            <field name="search_view_id" ref="view_crm_activity_search"/>
+            <field name="domain">[('is_done','=',1)]</field>
+            <field name="context">{'default_search_today':1}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Cliquez sur le bouton créer pour ajouter une activité (Appel téléphonique, Rendez-vous etc...).
+                </p>
+            </field>
+        </record>
+
+
+
+        <record model="ir.actions.act_window.view" id="action_view_crm_activity_tree">
+            <field name="act_window_id" ref="action_crm_activity_done"/>
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_crm_activity_history_tree"/>
+        </record>
+
+        <!-- AFFICHER LE MENU DES ACTIVITES -->
+        <menuitem name="Activités" id="menu_crm_activites_menu" parent="base.menu_base_partner" sequence="2" />
+        <menuitem name="En cours" id="menu_crm_activites_encours" parent="menu_crm_activites_menu" action="action_crm_activity_todo" sequence="3" />
+        <menuitem name="Historiques" id="menu_crm_activites_historique" parent="menu_crm_activites_menu" action="action_crm_activity_done" sequence="3" />
+
+
+    </data>
+</openerp>
