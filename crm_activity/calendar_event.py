@@ -34,7 +34,7 @@ class crm_activity(models.Model):
         if len(d_act) >= 1:
             return d_act[0]
         return d_act
-        
+
 
     @api.onchange('is_done')
     def onchange_is_done(self):

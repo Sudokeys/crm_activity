@@ -10,9 +10,12 @@
             <field name="inherit_id" ref="calendar.view_calendar_event_form"/>
             <field name="arch" type="xml">
                 <data>
-                    <field name="state" position="replace">
+                    <field name="state" position="replace"/>
+                    <sheet position="before">
+                        <header>
                         <field name="state" widget="statusbar" attrs="{'invisible': [('is_done','=',True)]}" class="oe_right" readonly="0" clickable="1"/>
-                    </field>
+                    </header>
+                </sheet>
                     <field name="partner_ids" position="before">
                         <field name="partner_id" string="Client" required="True"/>
                     </field>
@@ -109,6 +112,10 @@
             <field name="arch" type="xml">
                 <search string="Search Meetings">
                     <field name="name" string="Meeting" filter_domain="[('name','ilike',self)]"/>
+                    <separator/>
+                    <field name="opportunity_id"/>
+                    <separator/>
+                    <field name="activity_type_id" filter_domain="[('activity_type_id.name','ilike',self),('activity_type_id.ref','=',self)]"/>
                     <filter string="Unread Messages" name="message_unread" domain="[('message_unread','=',True)]"/>
                     <filter string="Aujourd'hui" name="today" domain="[('start_datetime','&lt;', time.strftime('%%Y-%%m-%%d 23:59:59')), ('start_datetime','&gt;=', time.strftime('%%Y-%%m-%%d 00:00:00'))]"/>
                     <separator/>
