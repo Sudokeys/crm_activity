@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+  <!-- QWEB Templates for UI Widgets and views -->
+
+  <!--
+
+  <t t-name="crm_activity_meetingView">
+    <div class="oe_crm_activity_meeting_view">
+      <div class="oe_crm_activity_meeting_buttons"/>>
+      <table class="oe_crm_activity_meeting_groups">
+        <tr class="oe_crm_activity_meeting_groups_headers">
+          <td class="oe_crm_activity_meeting_dummy_cell"><div/></td>
+        </tr>
+        <tr class="oe_crm_activity_meeting_dummy_row">
+        </tr>
+      </table>
+    </div>
+  </t>
+
+  -->
+
+</template>

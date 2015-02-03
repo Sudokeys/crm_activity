@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+    <record id="crm_activity_type_new_meeting_r0" model="crm.activity.type">
+      <field name="name">Meeting</field>
+      <field name="__last_update">2015-02-02 23:45:36</field>
+      <field name="create_date">2015-02-02 23:45:36</field>
+      <field name="create_uid" ref="base.user_root"/>
+      <field name="default" eval="False"/>
+      <field name="display_name">{new} Meeting</field>
+      <!-- one2many field 'end_result_ids' managed on the crm.activity.end_result side -->
+      <field name="id">2</field>
+      <field name="ref">meeting</field>
+      <field name="write_date">2015-02-02 23:45:36</field>
+      <field name="write_uid" ref="base.user_root"/>
+    </record>
+  </data>
+</openerp>

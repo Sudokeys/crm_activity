@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+    <record id="ir_ui_view_new_crm_activity_kaban_r0" model="ir.ui.view">
+      <field name="name">crm.activity kaban</field>
+      <field name="__last_update">2015-02-03 00:07:50</field>
+      <field name="active" eval="True"/>
+      <field name="arch" type="xml">
+        <kanban default_group_by="state">
+          <field name="state"/>
+          <field name="user_id"/>
+          <field name="description"/>
+          <field name="activity_type_id"/>
+          <templates>
+            <t t-name="kanban-box">
+              <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                <div class="oe_dropdown_toggle oe_dropdown_kanban" groups="base.group_user">
+                  <span class="oe_e">í</span>
+                  <ul class="oe_dropdown_menu">
+                    <t t-if="widget.view.is_action_enabled('edit')">
+                      <li>
+                        <a type="edit">Edit...</a>
+                      </li>
+                    </t>
+                    <t t-if="widget.view.is_action_enabled('delete')">
+                      <li>
+                        <a type="delete">Delete</a>
+                      </li>
+                    </t>
+                    <br/>
+                    <li>
+                      <ul class="oe_kanban_colorpicker" data-field="color"/>
+                    </li>
+                  </ul>
+                </div>
+                <div class="oe_kanban_content">
+                  <div>
+                    <b>
+                      <field name="name"/>
+                    </b>
+                  </div>
+                  <div class="oe_kanban_footer_left">
+                         </div>
+                  <div class="oe_kanban_footer_left" style="margin-top:5px;">
+                    <field name="activity_type_id"/>
+                  </div>
+                </div>
+                <div class="oe_clear"/>
+              </div>
+            </t>
+          </templates>
+        </kanban>
+      </field>
+      <field name="arch_db">&lt;?xml version="1.0"?&gt; 
+&lt;kanban default_group_by="state"&gt;
+    &lt;field name="state"/&gt;
+    &lt;field name="user_id"/&gt; 
+    &lt;field name="description"/&gt;
+    &lt;field name="activity_type_id"/&gt;
+    &lt;templates&gt;
+        &lt;t t-name="kanban-box"&gt;
+        &lt;div t-attf-class="oe_kanban_card oe_kanban_global_click"&gt; 
+        &lt;div class="oe_dropdown_toggle oe_dropdown_kanban" groups="base.group_user"&gt;  
+            &lt;span class="oe_e"&gt;í&lt;/span&gt;
+                &lt;ul class="oe_dropdown_menu"&gt;
+                &lt;t t-if="widget.view.is_action_enabled('edit')"&gt;&lt;li&gt;&lt;a type="edit"&gt;Edit...&lt;/a&gt;&lt;/li&gt;&lt;/t&gt; 
+                 &lt;t t-if="widget.view.is_action_enabled('delete')"&gt;&lt;li&gt;&lt;a type="delete"&gt;Delete&lt;/a&gt;&lt;/li&gt;&lt;/t&gt;  
+                 &lt;br/&gt;
+                 &lt;li&gt;&lt;ul class="oe_kanban_colorpicker" data-field="color"/&gt;&lt;/li&gt; 
+                 &lt;/ul&gt;
+         &lt;/div&gt;
+         &lt;div class="oe_kanban_content"&gt;
+             &lt;div&gt;&lt;b&gt;&lt;field name="name"/&gt;&lt;/b&gt;&lt;/div&gt;
+                &lt;div class="oe_kanban_footer_left"&gt;
+                         &lt;/div&gt; 
+                          &lt;div class="oe_kanban_footer_left" style="margin-top:5px;"&gt; 
+                             &lt;field name="activity_type_id"/&gt; 
+                             &lt;/div&gt; 
+                    &lt;/div&gt;
+               &lt;div class="oe_clear"/&gt;
+         &lt;/div&gt;
+    &lt;/t&gt;
+     &lt;/templates&gt;
+ &lt;/kanban&gt;     </field>
+      <field name="create_date">2015-02-03 00:05:40</field>
+      <field name="create_uid" ref="base.user_root"/>
+      <field name="customize_show" eval="False"/>
+      <field name="display_name">{new} crm.activity kaban</field>
+      <field name="id">790</field>
+      <!-- one2many field 'inherit_children_ids' managed on the ir.ui.view side -->
+      <field name="mode">primary</field>
+      <field name="model">calendar.event</field>
+      <!-- one2many field 'model_ids' managed on the ir.model.data side -->
+      <field name="page" eval="False"/>
+      <field name="priority">16</field>
+      <field name="type">kanban</field>
+      <field name="write_date">2015-02-03 00:07:50</field>
+      <field name="write_uid" ref="base.user_root"/>
+      <field name="xml_id"/>
+    </record>
+  </data>
+</openerp>

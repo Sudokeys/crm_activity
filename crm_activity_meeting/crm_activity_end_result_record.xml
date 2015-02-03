@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+    <record id="crm_activity_end_result_new_meeting_r0" model="crm.activity.end_result">
+      <field name="name">Closed</field>
+      <field name="__last_update">2015-02-02 23:45:36</field>
+      <field name="activity_type_id" ref="crm_activity_meeting.crm_activity_type_new_meeting_r0"/>
+      <field name="create_date">2015-02-02 23:45:36</field>
+      <field name="create_uid" ref="base.user_root"/>
+      <field name="display_name">Closed</field>
+      <field name="id">3</field>
+      <field name="write_date">2015-02-02 23:45:36</field>
+      <field name="write_uid" ref="base.user_root"/>
+    </record>
+    <record id="crm_activity_end_result_new_meeting_r1" model="crm.activity.end_result">
+      <field name="name">Cancelled</field>
+      <field name="__last_update">2015-02-02 23:45:36</field>
+      <field name="activity_type_id" ref="crm_activity_meeting.crm_activity_type_new_meeting_r0"/>
+      <field name="create_date">2015-02-02 23:45:36</field>
+      <field name="create_uid" ref="base.user_root"/>
+      <field name="display_name">Cancelled</field>
+      <field name="id">4</field>
+      <field name="write_date">2015-02-02 23:45:36</field>
+      <field name="write_uid" ref="base.user_root"/>
+    </record>
+    <record id="crm_activity_end_result_new_meeting_r2" model="crm.activity.end_result">
+      <field name="name">Adjourned</field>
+      <field name="__last_update">2015-02-02 23:45:36</field>
+      <field name="activity_type_id" ref="crm_activity_meeting.crm_activity_type_new_meeting_r0"/>
+      <field name="create_date">2015-02-02 23:45:36</field>
+      <field name="create_uid" ref="base.user_root"/>
+      <field name="display_name">Adjourned</field>
+      <field name="id">5</field>
+      <field name="write_date">2015-02-02 23:45:36</field>
+      <field name="write_uid" ref="base.user_root"/>
+    </record>
+  </data>
+</openerp>

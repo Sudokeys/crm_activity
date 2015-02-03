@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="view_crm_activity_meeting_form">
+            <field name="name">calendar.event.form.crm_activity_meeting_inherit</field>
+            <field name="model">calendar.event</field>
+            <field name="context">{}</field>
+            <field name="priority" eval="25"/>
+            <field name="inherit_id" ref="calendar.view_calendar_event_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//page[@string='Meeting Details']" position="after">
+                        <page string="CRM" attrs="{'invisible': [('opportunity_id', '=', False)]}">
+                            <group name='crm'>
+                                <field name="opportunity_id"/>
+                            </group>
+                        </page>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+        <record id="action_crm_activity_meetings" model="ir.actions.act_window">
+            <field name="name">Meetings</field>
+            <field name="res_model">calendar.event</field>
+            <field name="view_mode">kanban,tree,form,calendar</field>
+            <field name="search_view_id" ref="crm_activity.view_crm_activity_search"/>
+            <field name="domain">[('opportunity_id','=', active_id)]</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Cliquez sur le bouton créer pour ajouter une activité (Appel téléphonique, Rendez-vous etc...).
+                </p>
+            </field>
+        </record>
+
+    </data>
+</openerp>
