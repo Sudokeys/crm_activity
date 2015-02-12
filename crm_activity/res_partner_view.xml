@@ -10,7 +10,7 @@
             <field name="target">current</field>
             <field name="type">ir.actions.act_window</field>
             <!-- one2many field 'view_ids' managed on the ir.actions.act_window.view side -->
-            <field name="view_mode">tree</field>
+            <field name="view_mode">tree,form</field>
             <field name="view_type">form</field>
         </record>
 
