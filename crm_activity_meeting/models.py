@@ -31,6 +31,7 @@ class crm_activity(models.Model):
          'default_partner_ids': partner_ids,
          'default_team_id': lead.team_id.id,
          'default_name': lead.name,
+         'default_activity_type_id': activity_type_id,
          'search_default_opportunity_id': lead.id,
          'search_default_activity_type_id': activity_type_id,
         }
